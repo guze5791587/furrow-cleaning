@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1QG-1 Furrow-Cleaning Robot — Demo Video</title>
+<meta name="description" content="Field demonstration of the 1QG-1 furrow-cleaning robot, developed by Hunan Agricultural University.">
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="1QG-1 Furrow-Cleaning Robot — Demo Video">
+<meta property="og:description" content="Field demonstration of the 1QG-1 autonomous furrow-cleaning robot for rapeseed (oilseed) fields. Hunan Agricultural University.">
+<meta property="og:video" content="video-full.mp4">
+<meta property="og:image" content="poster.jpg">
+<meta name="twitter:card" content="player">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: #0d1117; color: #e6edf3;
+    font: 16px/1.65 -apple-system, "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px 48px;
+  }
+  main { width: 100%; max-width: 1080px; }
+  h1 { font-size: 24px; font-weight: 650; margin: 0 0 6px; letter-spacing: .2px; }
+  .lede { color: #8b949e; font-size: 14px; margin: 0 0 18px; }
+  .player {
+    position: relative; border-radius: 14px; overflow: hidden;
+    background: #000; box-shadow: 0 14px 44px rgba(0,0,0,.6);
+  }
+  video { display: block; width: 100%; height: auto; max-height: 80vh; background: #000; }
+  .bar {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    justify-content: space-between; margin-top: 14px; font-size: 13px; color: #8b949e;
+  }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  section { margin-top: 30px; }
+  h2 { font-size: 15px; font-weight: 600; color: #c9d1d9; margin: 0 0 8px; }
+  p { margin: 0 0 10px; color: #adbac7; font-size: 14px; }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; font-size: 14px; margin: 0; }
+  dt { color: #8b949e; }
+  dd { margin: 0; color: #c9d1d9; }
+  footer { margin-top: 34px; font-size: 12px; color: #6e7681; }
+  @media (max-width: 640px) {
+    h1 { font-size: 20px; }
+    dl { grid-template-columns: 1fr; gap: 2px 0; }
+    dt { margin-top: 8px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>1QG-1 Furrow-Cleaning Robot — Demo Video</h1>
+  <p class="lede">Field demonstration · Hunan Agricultural University · Oilseed-rape industry technology system, Hunan Province</p>
+
+  <div class="player">
+    <video id="v" controls playsinline preload="metadata" poster="poster.jpg">
+      <source src="video-full.mp4" type="video/mp4">
+      Your browser does not support HTML5 video. <a href="video-full.mp4">Download the video</a>.
+    </video>
+  </div>
+
+  <div class="bar">
+    <span>Click to play · fullscreen, speed control and picture-in-picture supported</span>
+    <span><a href="video-full.mp4" download>Download original file (79 MB)</a></span>
+  </div>
+
+  <section>
+    <h2>About the machine</h2>
+    <p>The 1QG-1 is a tracked autonomous robot that clears and maintains drainage furrows between
+    rapeseed beds. It navigates the field along pre-planned waypoints set on a handheld ground
+    station, then drives the furrow and throws the excavated soil onto the bed sides, keeping the
+    drainage channel open without compacting the crop rows.</p>
+    <p>The clip shows the operator teaching waypoints on the controller's map view, followed by the
+    robot working in the field.</p>
+  </section>
+
+  <section>
+    <h2>Specifications shown in this video</h2>
+    <dl>
+      <dt>Model</dt><dd>1QG-1 furrow-cleaning robot</dd>
+      <dt>Platform</dt><dd>Four-wheel / tracked chassis with rear auger and soil thrower</dd>
+      <dt>Navigation</dt><dd>Waypoint mission planned on a handheld ground station</dd>
+      <dt>Application</dt><dd>Rapeseed (oilseed rape) field drainage furrow maintenance</dd>
+      <dt>Developed by</dt><dd>Hunan Agricultural University</dd>
+    </dl>
+  </section>
+
+  <footer>Hosted as a static site on GitHub Pages.</footer>
+</main>
+<script>
+  const v = document.getElementById('v');
+  v.addEventListener('dblclick', () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else v.requestFullscreen && v.requestFullscreen();
+  });
+</script>
+</body>
+</html>
