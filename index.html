@@ -28,12 +28,24 @@
     background: #000; box-shadow: 0 14px 44px rgba(0,0,0,.6);
   }
   video { display: block; width: 100%; height: auto; max-height: 80vh; background: #000; }
+  .player:fullscreen, .player:-webkit-full-screen { border-radius: 0; }
+  .player:fullscreen video, .player:-webkit-full-screen video {
+    width: 100vw; height: 100vh; max-height: 100vh; object-fit: contain;
+  }
   .bar {
     display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
     justify-content: space-between; margin-top: 14px; font-size: 13px; color: #8b949e;
   }
   a { color: #58a6ff; text-decoration: none; }
   a:hover { text-decoration: underline; }
+  .ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 13px; color: #e6edf3; background: #21262d;
+    border: 1px solid #30363d; border-radius: 8px; padding: 6px 12px; cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .btn:hover { background: #30363d; border-color: #484f58; }
+  .btn:active { transform: translateY(1px); }
   section { margin-top: 30px; }
   h2 { font-size: 15px; font-weight: 600; color: #c9d1d9; margin: 0 0 8px; }
   p { margin: 0 0 10px; color: #adbac7; font-size: 14px; }
@@ -61,7 +73,10 @@
   </div>
 
   <div class="bar">
-    <span>Click to play · fullscreen, speed control and picture-in-picture supported</span>
+    <span class="ctl">
+      <button id="fs" class="btn" type="button" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
+      <span>Click the video to play · speed control and picture-in-picture supported</span>
+    </span>
     <span><a href="video-full.mp4" download>Download original file (79 MB)</a></span>
   </div>
 
@@ -78,11 +93,51 @@
   <footer>Hosted as a static site on GitHub Pages.</footer>
 </main>
 <script>
-  const v = document.getElementById('v');
-  v.addEventListener('dblclick', () => {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else v.requestFullscreen && v.requestFullscreen();
-  });
+  (function () {
+    var v = document.getElementById('v');
+    var wrap = document.querySelector('.player');
+    var btn = document.getElementById('fs');
+
+    function fullscreenEl() {
+      return document.fullscreenElement || document.webkitFullscreenElement ||
+             document.mozFullScreenElement || document.msFullscreenElement || null;
+    }
+    function exitFs() {
+      var fn = document.exitFullscreen || document.webkitExitFullscreen ||
+               document.mozCancelFullScreen || document.msExitFullscreen;
+      if (fn) { try { fn.call(document); } catch (e) {} }
+    }
+    function enterFs(el) {
+      var fn = el.requestFullscreen || el.webkitRequestFullscreen ||
+               el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (fn) {
+        try {
+          var r = fn.call(el, { navigationUI: 'hide' });
+          if (r && r.catch) r.catch(function () { iosFs(); });
+          return true;
+        } catch (e) { return false; }
+      }
+      return false;
+    }
+    // iOS Safari (iPhone) only supports fullscreen on the video element itself.
+    function iosFs() {
+      if (v.webkitEnterFullscreen) { try { v.webkitEnterFullscreen(); } catch (e) {} }
+    }
+    function toggle() {
+      if (fullscreenEl()) { exitFs(); return; }
+      if (!enterFs(wrap)) { if (!enterFs(v)) iosFs(); }
+    }
+
+    btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+    v.addEventListener('dblclick', function () { toggle(); });
+
+    document.addEventListener('fullscreenchange', function () {
+      btn.textContent = fullscreenEl() ? '⛶ Exit fullscreen' : '⛶ Fullscreen';
+    });
+    document.addEventListener('webkitfullscreenchange', function () {
+      btn.textContent = fullscreenEl() ? '⛶ Exit fullscreen' : '⛶ Fullscreen';
+    });
+  })();
 </script>
 </body>
 </html>
